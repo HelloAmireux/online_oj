@@ -16,9 +16,9 @@ import (
 // @Success 200 {string} json "{"code":"200","data":""}"
 // @Router /problem-list [get]
 
-func GetProblemList(c *gin.Context){
+func GetProblemList(c *gin.Context) {
 	models.GetProblemList()
-	c.String(http.StatusOK,"Get Problem List")
+	c.String(http.StatusOK, "Get Problem List")
 }
 
 //func GetProblemList(c *gin.Context) {
