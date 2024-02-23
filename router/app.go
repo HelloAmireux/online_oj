@@ -1,8 +1,11 @@
 package router
 
 import (
+	_ "YourProjectName/docs"
 	"YourProjectName/service"
 	gin "github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func Router() *gin.Engine {
@@ -10,7 +13,7 @@ func Router() *gin.Engine {
 	//r.Use(middlewares.Cors())
 	//
 	//// Swagger 配置
-	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	//
 	//// 路由规则
 	//
@@ -53,8 +56,8 @@ func Router() *gin.Engine {
 	//return r
 	//r:=gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200,gin.H{
-			"message":"ping",
+		c.JSON(200, gin.H{
+			"message": "ping",
 		})
 	})
 	return r
