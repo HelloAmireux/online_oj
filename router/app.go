@@ -14,6 +14,7 @@ func Router() *gin.Engine {
 	//
 	//// Swagger 配置
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+
 	//
 	//// 路由规则
 	//

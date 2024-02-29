@@ -1,9 +1,12 @@
 package service
 
 import (
+	"YourProjectName/define"
 	"YourProjectName/models"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
+	"strconv"
 )
 
 // GetProblemList
@@ -11,44 +14,45 @@ import (
 // @Summary 问题列表
 // @Param page query int false "请输入当前页,默认第一页"
 // @Param size query int false "size"
+// @Param keyword query string false "keyword"
 // @Success 200 {string} json "{"code":"200","data":""}"
 // @Router /problem-list [get]
 func GetProblemList(c *gin.Context) {
-	models.GetProblemList()
-	c.String(http.StatusOK, "Get Problem List")
+
+	size, _ := strconv.Atoi(c.DefaultQuery("size", define.DefaultSize))
+	page, err := strconv.Atoi(c.DefaultQuery("page", define.DefaultPage))
+	if err != nil {
+		log.Println("GetProblemList Page strconv Error:", err)
+		return
+	}
+	page = (page - 1) * size
+	var count int64
+	//查询传进来的标题
+	keyword := c.Query("keyword")
+	//categoryIdentity := c.Query("category_identity")
+
+	list := make([]*models.ProblemBasic, 0)
+	//err = models.GetProblemList(keyword).Distinct("`problem_basic`.`id`").Count(&count).Error
+	//if err != nil {
+	//	log.Println("GetProblemList Count Error:", err)
+	//	return
+	//}
+
+	//分页查询
+	err = models.GetProblemList(keyword).Offset(page).Limit(size).Find(&list).Error
+	if err != nil {
+		log.Println("Get Problem List Error:", err)
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"data": map[string]interface{}{
+			"list":  list,
+			"count": count,
+		},
+	})
 }
 
-//func GetProblemList(c *gin.Context) {
-//	size, _ := strconv.Atoi(c.DefaultQuery("size", define.DefaultSize))
-//	page, err := strconv.Atoi(c.DefaultQuery("page", define.DefaultPage))
-//	if err != nil {
-//		log.Println("GetProblemList Page strconv Error:", err)
-//		return
-//	}
-//	page = (page - 1) * size
-//	var count int64
-//	keyword := c.Query("keyword")
-//	categoryIdentity := c.Query("category_identity")
-//
-//	list := make([]*models.ProblemBasic, 0)
-//	err = models.GetProblemList(keyword, categoryIdentity).Distinct("`problem_basic`.`id`").Count(&count).Error
-//	if err != nil {
-//		log.Println("GetProblemList Count Error:", err)
-//		return
-//	}
-//	err = models.GetProblemList(keyword, categoryIdentity).Offset(page).Limit(size).Find(&list).Error
-//	if err != nil {
-//		log.Println("Get Problem List Error:", err)
-//		return
-//	}
-//	c.JSON(http.StatusOK, gin.H{
-//		"code": 200,
-//		"data": map[string]interface{}{
-//			"list":  list,
-//			"count": count,
-//		},
-//	})
-//}
 //
 //// GetProblemDetail
 //// @Tags 公共方法

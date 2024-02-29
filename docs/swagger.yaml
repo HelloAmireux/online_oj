@@ -12,6 +12,10 @@ paths:
         in: query
         name: size
         type: integer
+      - description: keyword
+        in: query
+        name: keyword
+        type: string
       responses:
         "200":
           description: '{"code":"200","data":""}'

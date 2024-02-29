@@ -1,9 +1,7 @@
 package models
 
 import (
-	"fmt"
 	"gorm.io/gorm"
-	"log"
 )
 
 type ProblemBasic struct {
@@ -17,7 +15,7 @@ type ProblemBasic struct {
 	Content           string             `gorm:"column:content;type:text;" json:"content"`                           // 文章正文
 	MaxRuntime        int                `gorm:"column:max_runtime;type:int(11);" json:"max_runtime"`                // 最大运行时长
 	MaxMem            int                `gorm:"column:max_mem;type:int(11);" json:"max_mem"`                        // 最大运行内存
-TestCases         []*TestCase        `gorm:"foreignKey:problem_identity;references:identity;" json:"test_cases"` // 关联测试用例表
+	TestCases         []*TestCase        `gorm:"foreignKey:problem_identity;references:identity;" json:"test_cases"` // 关联测试用例表
 	PassNum           int64              `gorm:"column:pass_num;type:int(11);" json:"pass_num"`                      // 通过次数
 	SubmitNum         int64              `gorm:"column:submit_num;type:int(11);" json:"submit_num"`                  // 提交次数
 }
@@ -26,8 +24,8 @@ func (table *ProblemBasic) TableName() string {
 	return "problem_basic"
 }
 
-//func GetProblemList(keyword, categoryIdentity string) *gorm.DB {
-func GetProblemList()  {
+// func GetProblemList(keyword, categoryIdentity string) *gorm.DB {
+func GetProblemList(keyword string) *gorm.DB {
 	//tx := DB.Model(new(ProblemBasic)).Distinct("`problem_basic`.`id`").Select("DISTINCT(`problem_basic`.`id`), `problem_basic`.`identity`, "+
 	//	"`problem_basic`.`title`, `problem_basic`.`max_runtime`, `problem_basic`.`max_mem`, `problem_basic`.`pass_num`, "+
 	//	"`problem_basic`.`submit_num`, `problem_basic`.`created_at`, `problem_basic`.`updated_at`, `problem_basic`.`deleted_at` ").Preload("ProblemCategories").Preload("ProblemCategories.CategoryBasic").
@@ -38,17 +36,14 @@ func GetProblemList()  {
 	//}
 	//return tx.Order("problem_basic.id DESC")
 	//fmt.Println("the function is begin")
-	data:=make([]*ProblemBasic,0)
-	DB.Find(&data)
-	log.Println("the data is ",data)
-	//if (data==nil){
-	//	fmt.Println("没有")
+	return DB.Model(new(ProblemBasic)).
+		Where("title like ? OR content like ?", "%"+keyword+"%", "%"+keyword+"%")
+	//data:=make([]*ProblemBasic,0)
+	//DB.Find(&data)
+	//log.Println("the data is ",data)
+	//
+	//for _,v:=range data{
+	//	fmt.Println("Problem ===>%v\n",v)
 	//}
 
-	for _,v:=range data{
-		fmt.Println("Problem ===>%v\n",v)
-	}
-	//var p []ProblemBasic
-	//DB.Find(&p)
-	//fmt.Println(p)
 }
