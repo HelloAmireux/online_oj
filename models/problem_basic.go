@@ -25,19 +25,20 @@ func (table *ProblemBasic) TableName() string {
 }
 
 // func GetProblemList(keyword, categoryIdentity string) *gorm.DB {
-func GetProblemList(keyword string) *gorm.DB {
-	//tx := DB.Model(new(ProblemBasic)).Distinct("`problem_basic`.`id`").Select("DISTINCT(`problem_basic`.`id`), `problem_basic`.`identity`, "+
-	//	"`problem_basic`.`title`, `problem_basic`.`max_runtime`, `problem_basic`.`max_mem`, `problem_basic`.`pass_num`, "+
-	//	"`problem_basic`.`submit_num`, `problem_basic`.`created_at`, `problem_basic`.`updated_at`, `problem_basic`.`deleted_at` ").Preload("ProblemCategories").Preload("ProblemCategories.CategoryBasic").
-	//	Where("title like ? OR content like ? ", "%"+keyword+"%", "%"+keyword+"%")
-	//if categoryIdentity != "" {
-	//	tx.Joins("RIGHT JOIN problem_category pc on pc.problem_id = problem_basic.id").
-	//		Where("pc.category_id = (SELECT cb.id FROM category_basic cb WHERE cb.identity = ? )", categoryIdentity)
-	//}
-	//return tx.Order("problem_basic.id DESC")
-	//fmt.Println("the function is begin")
-	return DB.Model(new(ProblemBasic)).
-		Where("title like ? OR content like ?", "%"+keyword+"%", "%"+keyword+"%")
+func GetProblemList(keyword, categoryIdentity string) *gorm.DB {
+	tx := DB.Model(new(ProblemBasic)).Distinct("`problem_basic`.`id`").Select("DISTINCT(`problem_basic`.`id`), `problem_basic`.`identity`, "+
+		"`problem_basic`.`title`, `problem_basic`.`max_runtime`, `problem_basic`.`max_mem`, `problem_basic`.`pass_num`, "+
+		"`problem_basic`.`submit_num`, `problem_basic`.`created_at`, `problem_basic`.`updated_at`, `problem_basic`.`deleted_at` ").Preload("ProblemCategories").Preload("ProblemCategories.CategoryBasic").
+		Where("title like ? OR content like ? ", "%"+keyword+"%", "%"+keyword+"%")
+	if categoryIdentity != "" {
+		tx.Joins("RIGHT JOIN problem_category pc on pc.problem_id = problem_basic.id").
+			Where("pc.category_id = (SELECT cb.id FROM category_basic cb WHERE cb.identity = ? )", categoryIdentity)
+	}
+	return tx.Order("problem_basic.id DESC")
+
+	//return DB.Model(new(ProblemBasic)).
+	//	Where("title like ? OR content like ?", "%"+keyword+"%", "%"+keyword+"%")
+
 	//data:=make([]*ProblemBasic,0)
 	//DB.Find(&data)
 	//log.Println("the data is ",data)

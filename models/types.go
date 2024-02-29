@@ -1,6 +1,8 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 //import (
 //	"database/sql/driver"
@@ -10,6 +12,7 @@ import "time"
 //)
 
 type MyTime time.Time
+
 //
 //func (t MyTime) MarshalJSON() ([]byte, error) {
 //	formatted := fmt.Sprintf("\"%v\"", time.Time(t).Format(define.DateLayout))
