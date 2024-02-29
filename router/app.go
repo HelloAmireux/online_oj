@@ -29,8 +29,8 @@ func Router() *gin.Engine {
 	//r.POST("/register", service.Register)
 	//// 排行榜
 	//r.GET("/rank-list", service.GetRankList)
-	//// 提交记录
-	//r.GET("/submit-list", service.GetSubmitList)
+	// 提交记录
+	r.GET("/submit-list", service.GetSubmitList)
 	//// 分类列表
 	//r.GET("/category-list", service.GetCategoryList)
 	//
