@@ -9,27 +9,6 @@ import (
 	"strconv"
 )
 
-// import (
-//
-//	"bytes"
-//	"errors"
-//	"getcharzp.cn/define"
-//	"getcharzp.cn/helper"
-//	"getcharzp.cn/models"
-//	"github.com/gin-gonic/gin"
-//	"gorm.io/gorm"
-//	"io"
-//	"io/ioutil"
-//	"log"
-//	"net/http"
-//	"os/exec"
-//	"runtime"
-//	"strconv"
-//	"sync"
-//	"time"
-//
-// )
-//
 // GetSubmitList
 // @Tags 公共方法
 // @Summary 提交列表
