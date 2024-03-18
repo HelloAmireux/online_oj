@@ -91,36 +91,38 @@ func Login(c *gin.Context) {
 	})
 }
 
-//// SendCode
-//// @Tags 公共方法
-//// @Summary 发送验证码
-//// @Param email formData string true "email"
-//// @Success 200 {string} json "{"code":"200","data":""}"
-//// @Router /send-code [post]
-//func SendCode(c *gin.Context) {
-//	email := c.PostForm("email")
-//	if email == "" {
-//		c.JSON(http.StatusOK, gin.H{
-//			"code": -1,
-//			"msg":  "参数不正确",
-//		})
-//		return
-//	}
-//	code := helper.GetRand()
-//	models.RDB.Set(c, email, code, time.Second*300)
-//	err := helper.SendCode(email, code)
-//	if err != nil {
-//		c.JSON(http.StatusOK, gin.H{
-//			"code": -1,
-//			"msg":  "Send Code Error:" + err.Error(),
-//		})
-//		return
-//	}
-//	c.JSON(http.StatusOK, gin.H{
-//		"code": 200,
-//		"msg":  "验证码发送成功",
-//	})
-//}
+// SendCode
+// @Tags 公共方法
+// @Summary 发送验证码
+// @Param email formData string true "email"
+// @Success 200 {string} json "{"code":"200","data":""}"
+// @Router /send-code [post]
+func SendCode(c *gin.Context) {
+	email := c.PostForm("email")
+	if email == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "参数不正确",
+		})
+		return
+	}
+	//code := helper.GetRand()
+	code := "123456"
+	//models.RDB.Set(c, email, code, time.Second*300)
+	err := helper.SendCode(email, code)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "Send Code Error:" + err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"msg":  "验证码发送成功",
+	})
+}
+
 //
 //// Register
 //// @Tags 公共方法

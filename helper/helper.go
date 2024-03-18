@@ -2,8 +2,11 @@ package helper
 
 import (
 	"crypto/md5"
+	"crypto/tls"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/jordan-wright/email"
+	"net/smtp"
 )
 
 type UserClaims struct {
@@ -54,19 +57,21 @@ func AnalyseToken(tokenString string) (*UserClaims, error) {
 	return userClaim, nil
 }
 
-//
-//// SendCode
-//// 发送验证码
-//func SendCode(toUserEmail, code string) error {
-//	e := email.NewEmail()
-//	e.From = "Get <l13164109261@163.com>"
-//	e.To = []string{toUserEmail}
-//	e.Subject = "验证码已发送，请查收"
-//	e.HTML = []byte("您的验证码：<b>" + code + "</b>")
-//	return e.SendWithTLS("smtp.163.com:465",
-//		smtp.PlainAuth("", "l13164109261@163.com", define.MailPassword, "smtp.163.com"),
-//		&tls.Config{InsecureSkipVerify: true, ServerName: "smtp.163.com"})
-//}
+// SendCode
+// 发送验证码
+func SendCode(toUserEmail, code string) error {
+	e := email.NewEmail()
+	e.From = "Get <13164109261@163.com>"
+	e.To = []string{toUserEmail}
+	e.Subject = "验证码发送测试"
+	e.HTML = []byte("您的验证码：<b>" + code + "</b>")
+	// 返回 EOF 时，关闭SSL重试
+	return e.SendWithTLS("smtp.163.com:465",
+		smtp.PlainAuth("", "13164109261@163.com", "TOZASJUDHVCHTJAW", "smtp.163.com"),
+		&tls.Config{InsecureSkipVerify: true, ServerName: "smtp.163.com"})
+
+}
+
 //
 //// GetUUID
 //// 生成唯一码
