@@ -2,12 +2,15 @@ package models
 
 import (
 	"gorm.io/gorm"
+	"time"
 )
 
 type UserBasic struct {
-	ID        uint           `gorm:"primarykey;" json:"id"`
-	CreatedAt MyTime         `gorm:"type:timestamp;" json:"created_at"`
-	UpdatedAt MyTime         `json:"updated_at"`
+	ID uint `gorm:"primarykey;" json:"id"`
+	//CreatedAt MyTime         `gorm:"type:timestamp;" json:"created_at"`
+	//UpdatedAt MyTime         `json:"updated_at"`
+	CreatedAt time.Time      `gorm:"type:timestamp;" json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index;" json:"deleted_at"`
 	Identity  string         `gorm:"column:identity;type:varchar(36);" json:"identity"` // 用户的唯一标识
 	Name      string         `gorm:"column:name;type:varchar(100);" json:"name"`        // 用户名
