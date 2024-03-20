@@ -2,12 +2,14 @@ package service
 
 import (
 	"YourProjectName/define"
+	"YourProjectName/helper"
 	"YourProjectName/models"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 // GetProblemList
@@ -96,88 +98,88 @@ func GetProblemDetail(c *gin.Context) {
 	})
 }
 
-//
-//// ProblemCreate
-//// @Tags 管理员私有方法
-//// @Summary 问题创建
-//// @Accept json
-//// @Param authorization header string true "authorization"
-//// @Param data body define.ProblemBasic true "ProblemBasic"
-//// @Success 200 {string} json "{"code":"200","data":""}"
-//// @Router /admin/problem-create [post]
-//func ProblemCreate(c *gin.Context) {
-//	in := new(define.ProblemBasic)
-//	err := c.ShouldBindJSON(in)
-//	if err != nil {
-//		log.Println("[JsonBind Error] : ", err)
-//		c.JSON(http.StatusOK, gin.H{
-//			"code": -1,
-//			"msg":  "参数错误",
-//		})
-//		return
-//	}
-//
-//	if in.Title == "" || in.Content == "" || len(in.ProblemCategories) == 0 || len(in.TestCases) == 0 || in.MaxRuntime == 0 || in.MaxMem == 0 {
-//		c.JSON(http.StatusOK, gin.H{
-//			"code": -1,
-//			"msg":  "参数不能为空",
-//		})
-//		return
-//	}
-//	identity := helper.GetUUID()
-//	data := &models.ProblemBasic{
-//		Identity:   identity,
-//		Title:      in.Title,
-//		Content:    in.Content,
-//		MaxRuntime: in.MaxRuntime,
-//		MaxMem:     in.MaxMem,
-//		CreatedAt:  models.MyTime(time.Now()),
-//		UpdatedAt:  models.MyTime(time.Now()),
-//	}
-//	// 处理分类
-//	categoryBasics := make([]*models.ProblemCategory, 0)
-//	for _, id := range in.ProblemCategories {
-//		categoryBasics = append(categoryBasics, &models.ProblemCategory{
-//			ProblemId:  data.ID,
-//			CategoryId: uint(id),
-//			CreatedAt:  models.MyTime(time.Now()),
-//			UpdatedAt:  models.MyTime(time.Now()),
-//		})
-//	}
-//	data.ProblemCategories = categoryBasics
-//	// 处理测试用例
-//	testCaseBasics := make([]*models.TestCase, 0)
-//	for _, v := range in.TestCases {
-//		// 举个例子 {"input":"1 2\n","output":"3\n"}
-//		testCaseBasic := &models.TestCase{
-//			Identity:        helper.GetUUID(),
-//			ProblemIdentity: identity,
-//			Input:           v.Input,
-//			Output:          v.Output,
-//			CreatedAt:       models.MyTime(time.Now()),
-//			UpdatedAt:       models.MyTime(time.Now()),
-//		}
-//		testCaseBasics = append(testCaseBasics, testCaseBasic)
-//	}
-//	data.TestCases = testCaseBasics
-//
-//	// 创建问题
-//	err = models.DB.Create(data).Error
-//	if err != nil {
-//		c.JSON(http.StatusOK, gin.H{
-//			"code": -1,
-//			"msg":  "Problem Create Error:" + err.Error(),
-//		})
-//		return
-//	}
-//	c.JSON(http.StatusOK, gin.H{
-//		"code": 200,
-//		"data": map[string]interface{}{
-//			"identity": data.Identity,
-//		},
-//	})
-//}
-//
+// ProblemCreate
+// @Tags 管理员私有方法
+// @Summary 问题创建
+// @Accept json
+// @Param authorization header string true "authorization"
+// @Param data body models.ProblemBasic true "ProblemBasic"
+// @Success 200 {string} json "{"code":"200","data":""}"
+// @Router /admin/problem-create [post]
+func ProblemCreate(c *gin.Context) {
+	in := new(models.ProblemBasic)
+	err := c.ShouldBindJSON(in)
+	if err != nil {
+		log.Println("[JsonBind Error] : ", err)
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "参数错误",
+		})
+		return
+	}
+
+	if in.Title == "" || in.Content == "" || len(in.ProblemCategories) == 0 || len(in.TestCases) == 0 || in.MaxRuntime == 0 || in.MaxMem == 0 {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "参数不能为空",
+		})
+		return
+	}
+	identity := helper.GetUUID()
+	data := &models.ProblemBasic{
+		Identity:   identity,
+		Title:      in.Title,
+		Content:    in.Content,
+		MaxRuntime: in.MaxRuntime,
+		MaxMem:     in.MaxMem,
+		CreatedAt:  models.MyTime(time.Now()),
+		UpdatedAt:  models.MyTime(time.Now()),
+	}
+	// 处理分类
+	categoryBasics := make([]*models.ProblemCategory, 0)
+	for _, id := range in.ProblemCategories {
+		categoryBasics = append(categoryBasics, &models.ProblemCategory{
+			ProblemId: data.ID,
+			//CategoryId: uint(id),
+			CategoryId: uint(id.ID),
+			CreatedAt:  models.MyTime(time.Now()),
+			UpdatedAt:  models.MyTime(time.Now()),
+		})
+	}
+	data.ProblemCategories = categoryBasics
+	// 处理测试用例
+	testCaseBasics := make([]*models.TestCase, 0)
+	for _, v := range in.TestCases {
+		// 举个例子 {"input":"1 2\n","output":"3\n"}
+		testCaseBasic := &models.TestCase{
+			Identity:        helper.GetUUID(),
+			ProblemIdentity: identity,
+			Input:           v.Input,
+			Output:          v.Output,
+			CreatedAt:       models.MyTime(time.Now()),
+			UpdatedAt:       models.MyTime(time.Now()),
+		}
+		testCaseBasics = append(testCaseBasics, testCaseBasic)
+	}
+	data.TestCases = testCaseBasics
+
+	// 创建问题
+	err = models.DB.Create(data).Error
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "Problem Create Error:" + err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"data": map[string]interface{}{
+			"identity": data.Identity,
+		},
+	})
+}
+
 //// ProblemModify
 //// @Tags 管理员私有方法
 //// @Summary 问题修改

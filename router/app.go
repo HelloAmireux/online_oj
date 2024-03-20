@@ -2,6 +2,7 @@ package router
 
 import (
 	_ "YourProjectName/docs"
+	"YourProjectName/middlewares"
 	"YourProjectName/service"
 	gin "github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
@@ -10,7 +11,7 @@ import (
 
 func Router() *gin.Engine {
 	r := gin.Default()
-	//r.Use(middlewares.Cors())
+	r.Use(middlewares.Cors())
 	//
 	//// Swagger 配置
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
@@ -36,9 +37,10 @@ func Router() *gin.Engine {
 	//
 	//// 管理员私有方法
 	//authAdmin := r.Group("/admin", middlewares.AuthAdminCheck())
-	////authAdmin := r.Group("/admin")
+	//authAdmin := r.Group("/admin")
 	//// 问题创建
 	//authAdmin.POST("/problem-create", service.ProblemCreate)
+	r.POST("/problem-create", service.ProblemCreate)
 	//// 问题修改
 	//authAdmin.PUT("/problem-modify", service.ProblemModify)
 	//// 分类创建
