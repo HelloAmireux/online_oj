@@ -33,7 +33,7 @@ func Router() *gin.Engine {
 	// 提交记录
 	r.GET("/submit-list", service.GetSubmitList)
 	//// 分类列表
-	//r.GET("/category-list", service.GetCategoryList)
+	r.GET("/category-list", service.GetCategoryList)
 	//
 	//// 管理员私有方法
 	//authAdmin := r.Group("/admin", middlewares.AuthAdminCheck())
@@ -49,6 +49,14 @@ func Router() *gin.Engine {
 	//authAdmin.PUT("/category-modify", service.CategoryModify)
 	//// 分类删除
 	//authAdmin.DELETE("/category-delete", service.CategoryDelete)
+	// 问题修改
+	//r.PUT("/problem-modify", service.ProblemModify)
+	// 分类创建
+	//r.POST("/category-create", service.CategoryCreate)
+	//// 分类修改
+	//r.PUT("/category-modify", service.CategoryModify)
+	//// 分类删除
+	//r.DELETE("/category-delete", service.CategoryDelete)
 	//// 获取测试案例
 	//authAdmin.GET("/test-case", service.GetTestCase)
 	//

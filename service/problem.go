@@ -180,15 +180,15 @@ func ProblemCreate(c *gin.Context) {
 	})
 }
 
-//// ProblemModify
-//// @Tags 管理员私有方法
-//// @Summary 问题修改
-//// @Param authorization header string true "authorization"
-//// @Param data body define.ProblemBasic true "ProblemBasic"
-//// @Success 200 {string} json "{"code":"200","data":""}"
-//// @Router /admin/problem-modify [put]
+// ProblemModify
+// @Tags 管理员私有方法
+// @Summary 问题修改
+// @Param authorization header string true "authorization"
+// @Param data body define.ProblemBasic true "ProblemBasic"
+// @Success 200 {string} json "{"code":"200","data":""}"
+// @Router /admin/problem-modify [put]
 //func ProblemModify(c *gin.Context) {
-//	in := new(define.ProblemBasic)
+//	in := new(models.ProblemBasic)
 //	err := c.ShouldBindJSON(in)
 //	if err != nil {
 //		log.Println("[JsonBind Error] : ", err)
@@ -237,7 +237,8 @@ func ProblemCreate(c *gin.Context) {
 //		for _, id := range in.ProblemCategories {
 //			pcs = append(pcs, &models.ProblemCategory{
 //				ProblemId:  problemBasic.ID,
-//				CategoryId: uint(id),
+//				//CategoryId: uint(id),
+//				CategoryId: uint(id.ID),
 //				CreatedAt:  models.MyTime(time.Now()),
 //				UpdatedAt:  models.MyTime(time.Now()),
 //			})
