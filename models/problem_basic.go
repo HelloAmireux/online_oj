@@ -2,12 +2,15 @@ package models
 
 import (
 	"gorm.io/gorm"
+	"time"
 )
 
 type ProblemBasic struct {
-	ID                uint               `gorm:"primarykey;" json:"id"`
-	CreatedAt         MyTime             `json:"created_at"`
-	UpdatedAt         MyTime             `json:"updated_at"`
+	ID uint `gorm:"primarykey;" json:"id"`
+	//CreatedAt         MyTime             `json:"created_at"`
+	//UpdatedAt         MyTime             `json:"updated_at"`
+	CreatedAt         time.Time          `json:"created_at"`
+	UpdatedAt         time.Time          `json:"updated_at"`
 	DeletedAt         gorm.DeletedAt     `gorm:"index;" json:"deleted_at"`
 	Identity          string             `gorm:"column:identity;type:varchar(36);" json:"identity"`                  // 问题表的唯一标识
 	ProblemCategories []*ProblemCategory `gorm:"foreignKey:problem_id;references:id" json:"problem_categories"`      // 关联问题分类表

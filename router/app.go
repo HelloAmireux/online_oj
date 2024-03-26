@@ -36,28 +36,28 @@ func Router() *gin.Engine {
 	r.GET("/category-list", service.GetCategoryList)
 	//
 	//// 管理员私有方法
-	//authAdmin := r.Group("/admin", middlewares.AuthAdminCheck())
+	authAdmin := r.Group("/admin", middlewares.AuthAdminCheck())
 	//authAdmin := r.Group("/admin")
 	//// 问题创建
-	//authAdmin.POST("/problem-create", service.ProblemCreate)
-	r.POST("/problem-create", service.ProblemCreate)
-	//// 问题修改
+	authAdmin.POST("/problem-create", service.ProblemCreate)
+	//r.POST("/problem-create", service.ProblemCreate)
+	// 问题修改
 	//authAdmin.PUT("/problem-modify", service.ProblemModify)
-	//// 分类创建
+	// 分类创建
 	//authAdmin.POST("/category-create", service.CategoryCreate)
-	//// 分类修改
+	////// 分类修改
 	//authAdmin.PUT("/category-modify", service.CategoryModify)
-	//// 分类删除
+	////// 分类删除
 	//authAdmin.DELETE("/category-delete", service.CategoryDelete)
 	// 问题修改
 	//r.PUT("/problem-modify", service.ProblemModify)
-	// 分类创建
-	//r.POST("/category-create", service.CategoryCreate)
-	//// 分类修改
-	//r.PUT("/category-modify", service.CategoryModify)
-	//// 分类删除
-	//r.DELETE("/category-delete", service.CategoryDelete)
-	//// 获取测试案例
+	//分类创建
+	r.POST("/admin/category-create", middlewares.AuthAdminCheck(), service.CategoryCreate)
+	//分类修改
+	r.PUT("/admin/category-modify", middlewares.AuthAdminCheck(), service.CategoryModify)
+	//分类删除
+	r.DELETE("/admin/category-delete", middlewares.AuthAdminCheck(), service.CategoryDelete)
+	// 获取测试案例
 	//authAdmin.GET("/test-case", service.GetTestCase)
 	//
 	//// 用户私有方法

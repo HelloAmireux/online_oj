@@ -3,6 +3,7 @@ package middlewares
 import (
 	"YourProjectName/helper"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
@@ -10,6 +11,7 @@ import (
 func AuthAdminCheck() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		auth := c.GetHeader("Authorization")
+		log.Println(auth)
 		userClaim, err := helper.AnalyseToken(auth)
 		if err != nil {
 			c.Abort()

@@ -132,8 +132,10 @@ func ProblemCreate(c *gin.Context) {
 		Content:    in.Content,
 		MaxRuntime: in.MaxRuntime,
 		MaxMem:     in.MaxMem,
-		CreatedAt:  models.MyTime(time.Now()),
-		UpdatedAt:  models.MyTime(time.Now()),
+		//CreatedAt:  models.MyTime(time.Now()),
+		//UpdatedAt:  models.MyTime(time.Now()),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 	// 处理分类
 	categoryBasics := make([]*models.ProblemCategory, 0)

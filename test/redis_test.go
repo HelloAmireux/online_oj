@@ -18,7 +18,7 @@ var rdb = redis.NewClient(&redis.Options{
 })
 
 func TestRedisSet(t *testing.T) {
-	rdb.Set(ctx, "name", "mmc", time.Second*10)
+	rdb.Set(ctx, "name", "mmc", time.Second*100)
 }
 
 func TestRedisGet(t *testing.T) {
